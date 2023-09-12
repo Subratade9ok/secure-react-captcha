@@ -1,0 +1,92 @@
+/* Container for the entire SecureReactCaptcha component */
+.src_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: transparent;
+    /* Light gray background */
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Container for the captcha canvas and reset button */
+.src_canvas_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    /* White background */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Soft box shadow */
+}
+
+/* The captcha canvas element */
+.src_canvas {
+    flex: 1;
+}
+
+/* The reset button for generating a new captcha */
+.src_reset_button {
+    height: 50px;
+    width: 50px;
+    background-color: #3498db;
+    /* background-color: #ffffff; */
+    /* Blue color */
+    color: #000;
+    /* White text color */
+    border: 0px solid;
+    cursor: pointer;
+    border-radius: 50%;
+    /* Circular button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    /* Smooth color transition */
+
+    /* Hover effect */
+    &:hover {
+        background-color: #2980b9;
+        /* Slightly darker blue on hover */
+    }
+}
+
+/* The input field for entering captcha text */
+.src_input {
+    width: 305px;
+    padding: 10px 5px;
+    font-size: 20px;
+    margin-top: 15px;
+    letter-spacing: 5px;
+    /* Reduced letter spacing */
+    border: 2px solid #3498db;
+    /* Blue border */
+    border-radius: 5px;
+    color: #333;
+    /* Dark text color */
+    background-color: #fff;
+    /* White background */
+    transition: border-color 0.3s ease;
+    /* Smooth border color transition */
+
+    outline: none;
+
+    /* Hover effect */
+    &:hover {
+        border-color: #2980b9;
+        /* Slightly darker blue on hover */
+    }
+
+    /* Focus state */
+    &:focus {
+        outline: none;
+        border-color: #2980b9;
+        /* Blue border on focus */
+    }
+}
