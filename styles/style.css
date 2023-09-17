@@ -59,16 +59,17 @@
 
 /* The input field for entering captcha text */
 .src_input {
-    width: 305px;
+    width: 35px;
     padding: 10px 5px;
     font-size: 20px;
-    margin-top: 15px;
-    letter-spacing: 5px;
+    margin: 8px;
+    text-align: center;
+    /* letter-spacing: 5px; */
     /* Reduced letter spacing */
     border: 2px solid #3498db;
     /* Blue border */
     border-radius: 5px;
-    color: #333;
+    color: #000;
     /* Dark text color */
     background-color: #fff;
     /* White background */

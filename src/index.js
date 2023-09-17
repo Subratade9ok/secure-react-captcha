@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { generateCaptcha, getRandomId } from './utils/captchaUtils';
 
+
 const SecureReactCaptcha = ({
     setValidated,
     needDots = true,
@@ -14,13 +15,12 @@ const SecureReactCaptcha = ({
     // State variables for managing the captcha and its related elements
     const [captchaImage, setCaptchaImage] = useState('a'); // Captcha image URL
     const [canvasId, setCanvasId] = useState('a'); // Canvas element ID
-    const [captchaId, setCaptchaId] = useState('a'); // Captcha input ID
     const [captchaText, setCaptchaText] = useState(''); // User-entered captcha text
+    const [otp, setOtp] = useState(Array(5).fill('')); // Assuming a 5-digit OTP
 
     // Function to generate a new captcha and update state variables
     const generateNewCaptcha = () => {
         setCanvasId(getRandomId()); // Generate a new ID for the canvas element
-        setCaptchaId(getRandomId()); // Generate a new ID for the captcha input element
         const newCaptchaImage = generateCaptcha(
             document.getElementById(canvasId), // Get the canvas element by ID
             needDots,
@@ -33,7 +33,51 @@ const SecureReactCaptcha = ({
         );
         setCaptchaImage(newCaptchaImage); // Update the captcha image URL
         setCaptchaText(''); // Clear the user-entered captcha text
+        setOtp(Array(5).fill(''))
         setValidated(false); // Reset the validation status
+    };
+
+    const handleChange = (index) => (e) => {
+        const value = e.target.value;
+        if (value === "") {
+            setOtp(prevOtp => {
+                const newOtp = [...prevOtp];
+                newOtp[index] = "";
+
+                // Auto-focus on the previous input field (if available)
+                if (index > 0) {
+                    const previousSibling = e.target.previousElementSibling;
+                    if (previousSibling) {
+                        previousSibling.focus();
+                    }
+                }
+
+                return newOtp;
+            });
+        }
+        else if (characters.includes(value)) {
+            setOtp(prevOtp => {
+                const newOtp = [...prevOtp];
+                newOtp[index] = value;
+                // Auto-focus on the next input field (if available)
+                if (index < 4) {
+                    const nextSibling = e.target.nextElementSibling;
+                    if (nextSibling) {
+                        nextSibling.focus();
+                    }
+                }
+                return newOtp;
+            });
+        }
+    };
+
+    const handleKeyUp = (index) => (e) => {
+        if (e.keyCode === 8 && otp[index] === "") { // keyCode 8 is for backspace
+            const previousSibling = e.target.previousElementSibling;
+            if (previousSibling) {
+                previousSibling.focus();
+            }
+        }
     };
 
     // useEffect to initialize the captcha on component mount
@@ -41,8 +85,14 @@ const SecureReactCaptcha = ({
         generateNewCaptcha();
     }, []);
 
+    // useEffect to set captcha entered
+    useEffect(() => {
+        setCaptchaText(otp.join(''))
+    }, [otp]);
+
     // useEffect to check the validation when the captchaText changes
     useEffect(() => {
+        console.log(captchaText)
         if (captchaText.length === 5) {
             // If the user has entered 5 characters, check for validation
             setValidated(captchaText === captchaImage); // Compare user input with captcha
@@ -64,17 +114,22 @@ const SecureReactCaptcha = ({
                     </svg>
                 </button>
             </div>
-            <input
-                maxLength={5}
-                minLength={5}
-                id={`${captchaId}`}
-                type="text"
-                className="src_input"
-                name="captcha"
-                placeholder="XXXXX"
-                value={captchaText}
-                onChange={e => setCaptchaText(e.target.value)}
-            />
+
+            <div className='d-flex justify-content-between'>
+                {otp.map((value, index) => (
+                    <input
+                        type="text"
+                        className='src_input'
+                        key={index}
+                        placeholder='X'
+                        maxLength="1"
+                        value={value}
+                        onChange={handleChange(index)}
+                        onKeyUp={handleKeyUp(index)}
+                    />
+
+                ))}
+            </div>
         </div>
     );
 };

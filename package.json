@@ -1,6 +1,6 @@
 {
   "name": "secure-react-captcha",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Secure Captcha is a powerful and customizable npm package designed to seamlessly integrate secure and user-friendly CAPTCHA functionality into your React application.",
   "main": "./build/index.js",
   "scripts": {
